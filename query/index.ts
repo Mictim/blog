@@ -17,7 +17,11 @@ type Comment = {
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-
+// the idea was to create a post of Post[] type;
+/*
+const posts: Post[] = [];
+*/
+// but this approach doesn't work, because client app received empty array in this case
 const posts = {};
 
 app.get('/posts', (req: Request, res: Response) => {
