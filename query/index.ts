@@ -12,6 +12,7 @@ type Comment = {
     id: string;
     content: string;
     postId: string;
+    status?: string;
 }
 
 const app = express();
@@ -37,8 +38,18 @@ app.post('/events', (req: Request, res: Response) => {
             break;
         }
         case "CommentCreated": {
-            const { id, content, postId }: Comment = data;
-            posts[postId].comments!.push({ id, content });
+            const { id, content, postId, status }: Comment = data;
+            posts[postId].comments!.push({ id, content, status });
+            break;
+        }
+        case "CommentUpdated": {
+            const { id, content, postId, status }: Comment = data;
+            const post = posts[postId];
+            const comment: Comment = post.comments.find((comment: { id: string; }) => {
+                return comment.id === id
+            }) 
+            comment.status = status;
+            comment.content = content;
             break;
         }
         default: {
@@ -49,5 +60,5 @@ app.post('/events', (req: Request, res: Response) => {
 });
 
 app.listen(4002, () => {
-    console.log("Listening on 4002 port");
+    console.log("Query service: Listening on 4002 port");
 });

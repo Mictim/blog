@@ -17,10 +17,14 @@ app.post("/events", (req: Request, res: Response) => {
         console.log(err.message);
       });
 
+      axios.post('http://localhost:4003/events', event).catch((err) => {
+        console.log(err.message);
+      });
+
       res.send({ status: 'OK' });
     
 });
 
 app.listen("4005", () => {
-    console.log("Listening to 4005 Port"); 
+    console.log("Event-bus: Listening to 4005 Port"); 
 });
