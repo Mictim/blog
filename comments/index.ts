@@ -52,7 +52,7 @@ app.post('/events', async (req: Request, res: Response) => {
         // @ts-ignore
         const comments: CommentContent[] = commentsByPostId[postId];
         const comment = comments.find(comment => {
-            comment.id === id
+            return comment.id === id
         });
         comment!.status = status;
 

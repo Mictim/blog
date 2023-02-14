@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import axios from "axios";
 
 type Post = {
     id: string;
@@ -25,12 +26,7 @@ const posts: Post[] = [];
 // but this approach doesn't work, because client app received empty array in this case
 const posts = {};
 
-app.get('/posts', (req: Request, res: Response) => {
-    res.send(posts);
-});
-
-app.post('/events', (req: Request, res: Response) => {
-    const { type, data } = req.body;
+const handleEvent = (type: string, data: any) => {
     switch (type) {
         case "PostCreated": {
             const { id, title } = data;
@@ -56,9 +52,25 @@ app.post('/events', (req: Request, res: Response) => {
             console.warn(`${type} doesn't exists!`);
         }
     }
+}
+
+app.get('/posts', (req: Request, res: Response) => {
+    res.send(posts);
+});
+
+app.post('/events', (req: Request, res: Response) => {
+    const { type, data } = req.body;
+    handleEvent(type, data);
+    console.log(posts);
     res.send({});
 });
 
-app.listen(4002, () => {
+app.listen(4002, async () => {
     console.log("Query service: Listening on 4002 port");
+
+    const res = await axios.get('http://localhost:4005/events');
+    for (const event of res.data) {
+        console.log('Processing event: ', event.type);
+        handleEvent(event.type,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     event.data);
+    }
 });
