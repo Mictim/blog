@@ -104,3 +104,9 @@ dist
 .tern-port
 
 .DS_Store
+
+./client/node_modules
+./comments/node_modules
+./event-bus/node_modules
+./posts/node_modules
+./posts/node_modules
