@@ -7,6 +7,7 @@ import axios from "axios";
 type PostContent = {
     id: string;
     content: string;
+    status: string;
 }
 
 const app: Express = express();
@@ -24,7 +25,7 @@ app.post('/posts/:id/comments', async (req: Request, res: Response) => {
      const { content } = req.body;
 
      const comments: PostContent[] = commentsByPostId[req.params.id] || [];
-     comments.push({ id: commentId,  content });
+     comments.push({ id: commentId,  content, status: "pending" });
      commentsByPostId[req.params.id] = comments;
 
      await axios.post('http://localhost:4005/events', {
