@@ -7,7 +7,20 @@ type CommentListProps = {
 const CommentList = ({ comments }: CommentListProps) => {
 
     const renderedComments = comments.map(comment => {
-        return <li key={comment.id}>{comment.content}</li>
+        {
+            switch(comment.status) {
+                case "rejected": {
+                    return <li key={comment.id}>Comment is rejected by Moderation service</li>
+                };
+                case "pending": {
+                    return <li key={comment.id}>Comment is moderated</li>
+                };
+                default: {
+                    return <li key={comment.id}>{comment.content}</li>
+                }
+            }
+        }
+        
     })
 
     return (
