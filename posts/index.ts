@@ -14,7 +14,7 @@ app.get('/posts', (req: Request, res: Response) => {
     res.send(posts);
 });
 
-app.post('/posts', async (req: Request, res: Response) => {
+app.post('/posts/create', async (req: Request, res: Response) => {
     const id = randomBytes(4).toString('hex');
     const { title } = req.body;
 
@@ -39,5 +39,6 @@ app.post('/events', (req: Request, res: Response) => {
 });
 
 app.listen(4000,  () => {
+    console.log('version 1.1');
     console.log('Post service: Listening on 4000 Port'); 
 })

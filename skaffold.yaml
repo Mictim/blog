@@ -1,0 +1,59 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+build:
+  artifacts:
+    - image: mictim/client
+      context: client
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: mictim/posts
+      context: posts
+      sync:
+        manual:
+          - src: '*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: mictim/comments
+      context: comments
+      sync:
+        manual:
+          - src: '*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: mictim/event-bus
+      context: event-bus
+      sync:
+        manual:
+          - src: '*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: mictim/moderation
+      context: moderation
+      sync:
+        manual:
+          - src: '*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: mictim/query
+      context: query
+      sync:
+        manual:
+          - src: '*.ts'
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+deploy:
+  kubectl: {}
